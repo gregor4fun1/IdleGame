@@ -1,9 +1,30 @@
 // Kostenkurven für das Idle-Game (30 Level)
 
-const MAX_LEVEL = 30;
-const BASIS_PREIS = 10;       // Preis von Level 1
-const WACHSTUM = 5;           // Level n+1 kostet 5x so viel wie Level n → Level 30 ≈ 1,9 AC
-const AUTO_FAKTOR = 5;        // Auto-Farming kostet 5x den Freischaltpreis
+// Gemeinsame Konfiguration für Kostenkurven und economy.js.
+// Sie steht im zuerst geladenen Skript, damit auch die bestehende Kurven-Seite
+// und `node kostenkurve.js` ohne zusätzliche Browser-Skripte funktionieren.
+const CONFIG = Object.freeze({
+  maxLevel: 30,
+  unlockBase: 10, unlockGrowth: 5, autoMultiplier: 5,
+  growthMin: 5, profileWeight: 0.3, badLuckWeight: 0.2,
+  hashMultiplier: 31, hashModulus: 1000003,
+  clickBase: 2, incomeGrowth: 5, incomeMultiplier: 1,
+  cooldownBase: 1, cooldownStep: 0.5, cooldownMax: 5,
+  speedMin: 0.75, speedMax: 1.25,
+  referenceBase: 30, referenceStep: 14, referenceMax: 160,
+  manualEfficiency: 0.8, manualLevels: 2,
+  targetMinMinutes: 60, targetMaxMinutes: 120,
+  nameMaxLength: 20,
+  herkunft: Object.freeze(["Österreich", "Deutschland", "Schweiz", "Italien", "Ungarn", "Türkei",
+    "Kroatien", "Serbien", "Polen", "anderes Land"]),
+  augenfarbe: Object.freeze(["blau", "braun", "grün", "grau"]),
+  haarfarbe: Object.freeze(["schwarz", "braun", "blond", "rot", "grau"]),
+});
+// Bestehende Schnittstellen von Gebiet B und den alten Kostenkurven.
+const MAX_LEVEL = CONFIG.maxLevel;
+const BASIS_PREIS = CONFIG.unlockBase;
+const WACHSTUM = CONFIG.unlockGrowth;
+const AUTO_FAKTOR = CONFIG.autoMultiplier;
 
 function pruefeLevel(level) {
   if (!Number.isInteger(level) || level < 1 || level > MAX_LEVEL) {
@@ -22,25 +43,39 @@ function freischaltKosten(level) {
 function textZuZahl(text) {
   let hash = 0;
   for (const zeichen of String(text).toLowerCase().trim()) {
-    hash = (hash * 31 + zeichen.charCodeAt(0)) % 1000003;
+    hash = (hash * CONFIG.hashMultiplier + zeichen.charCodeAt(0)) % CONFIG.hashModulus;
   }
-  return hash / 1000003;
+  return hash / CONFIG.hashModulus;
 }
 
 // Algorithmus 2: Auto-Farming-Kosten pro Level
 // Eingabe: level, herkunft, augenfarbe, haarfarbe, name, glueck (0–1) → Ausgabe: Preis
+function pruefeCharakter(character) {
+  if (!character || typeof character !== "object") throw new TypeError("Charakter fehlt");
+  for (const key of ["herkunft", "augenfarbe", "haarfarbe", "name"]) {
+    if (typeof character[key] !== "string" || !character[key].trim()) {
+      throw new TypeError(`Charakter-Eigenschaft ${key} fehlt oder ist leer`);
+    }
+  }
+  if (character.name.trim().length > CONFIG.nameMaxLength) {
+    throw new RangeError(`Name darf höchstens ${CONFIG.nameMaxLength} Zeichen haben`);
+  }
+  if (!Number.isFinite(character.glueck) || character.glueck < 0 || character.glueck > 1) {
+    throw new RangeError("Glücksfaktor muss eine endliche Zahl zwischen 0 und 1 sein");
+  }
+}
+
+function charakterWachstum(character) {
+  pruefeCharakter(character);
+  const profil = textZuZahl([character.herkunft, character.augenfarbe,
+    character.haarfarbe, character.name.trim()].join("|"));
+  return CONFIG.growthMin + profil * CONFIG.profileWeight
+    + (1 - character.glueck) * CONFIG.badLuckWeight;
+}
+
 function autoFarmingKosten(level, herkunft, augenfarbe, haarfarbe, name, glueck) {
   pruefeLevel(level);
-  if (typeof glueck !== "number" || glueck < 0 || glueck > 1) {
-    throw new RangeError("Glücksfaktor muss zwischen 0 und 1 liegen");
-  }
-
-  // Der Spieler bestimmt den Wachstumsfaktor (5,0 bis 6,0), nicht nur einen Aufschlag.
-  // Dadurch gehen die Kurven verschiedener Spieler mit jedem Level weiter auseinander.
-  // Untergrenze = WACHSTUM → Auto-Farming kostet nie weniger als AUTO_FAKTOR × Freischaltpreis.
-  const profil = textZuZahl([herkunft, augenfarbe, haarfarbe, name].join("|")); // 0–1, fest pro Spieler
-  const wachstum = WACHSTUM + profil * 0.6 + (1 - glueck) * 0.4; // Profil bis +0,6, Pech bis +0,4
-
+  const wachstum = charakterWachstum({ herkunft, augenfarbe, haarfarbe, name, glueck });
   return Math.round(BASIS_PREIS * AUTO_FAKTOR * wachstum ** (level - 1));
 }
 
@@ -82,4 +117,4 @@ if (typeof require !== "undefined" && require.main === module) {
   console.log("OK");
 }
 
-if (typeof module !== "undefined") module.exports = { freischaltKosten, autoFarmingKosten, formatiere };
+if (typeof module !== "undefined") module.exports = { CONFIG, pruefeLevel, pruefeCharakter, charakterWachstum, textZuZahl, freischaltKosten, autoFarmingKosten, formatiere };

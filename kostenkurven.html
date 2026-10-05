@@ -1,104 +1,10 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="de">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Kostenkurven</title>
-<style>
-  :root {
-    --surface: #fcfcfb; --text: #0b0b0b; --text-2: #52514e; --grid: #e6e5e0;
-    --s1: #2a78d6; --s2: #eb6834; --s3: #1baf7a; --s4: #eda100; --s5: #e87ba4;
-  }
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --surface: #1a1a19; --text: #ffffff; --text-2: #c3c2b7; --grid: #33332f;
-      --s1: #3987e5; --s2: #d95926; --s3: #199e70; --s4: #c98500; --s5: #d55181;
-    }
-  }
-  body { margin: 0; padding: 24px 16px; background: var(--surface); color: var(--text);
-         font: 15px/1.5 system-ui, sans-serif; }
-  main { max-width: 900px; margin: 0 auto; }
-  h1 { font-size: 22px; margin: 0 0 4px; }
-  h2 { font-size: 17px; margin: 32px 0 4px; }
-  p { color: var(--text-2); margin: 0 0 12px; }
-  .chart { position: relative; height: 380px; }
-  label { color: var(--text-2); font-size: 14px; }
-</style>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="refresh" content="0;url=kostenkurve.html">
+<title>Aktuelle Kostenkurven</title>
 </head>
-<body>
-<main>
-  <h1>Kostenkurven</h1>
-  <label><input type="checkbox" id="log" checked> Logarithmische Y-Achse</label>
-
-  <h2>Algorithmus 1: Freischaltkosten</h2>
-  <p>Preis = 10 × 5<sup>Level − 1</sup></p>
-  <div class="chart"><canvas id="c1"></canvas></div>
-
-  <h2>Algorithmus 2: Auto-Farming-Kosten (5 Spieler)</h2>
-  <p>Preis = 50 × w<sup>Level − 1</sup>, mit w = 5 + Profil × 0,6 + (1 − Glück) × 0,4 (w zwischen 5 und 6)</p>
-  <div class="chart"><canvas id="c2"></canvas></div>
-</main>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
-<script src="kostenkurve.js"></script>
-<script>
-  const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
-  const levels = Array.from({ length: 30 }, (_, i) => i + 1);
-
-  const kurz = formatiere;
-
-  const spieler = [
-    ["Österreich", "blau",  "braun",   "Gregor", 0.5],
-    ["Deutschland", "grün", "blond",   "Anna",   0.0],
-    ["Italien",    "braun", "schwarz", "Marco",  1.0],
-    ["Japan",      "braun", "schwarz", "Yuki",   0.3],
-    ["Schweden",   "blau",  "rot",     "Lars",   0.8],
-  ];
-
-  Chart.defaults.color = css("--text-2");
-  Chart.defaults.borderColor = css("--grid");
-  Chart.defaults.font.family = "system-ui, sans-serif";
-
-  const optionen = {
-    maintainAspectRatio: false,
-    interaction: { mode: "index", intersect: false },
-    elements: { line: { borderWidth: 2 }, point: { radius: 0, hoverRadius: 5 } },
-    scales: {
-      x: { title: { display: true, text: "Level" }, grid: { display: false } },
-      y: { type: "logarithmic", title: { display: true, text: "Preis" }, ticks: { callback: kurz } },
-    },
-    plugins: {
-      tooltip: { callbacks: { title: t => "Level " + t[0].label,
-                              label: t => ` ${t.dataset.label}: ${kurz(t.parsed.y)}` } },
-    },
-  };
-
-  const c1 = new Chart(document.getElementById("c1"), {
-    type: "line",
-    data: { labels: levels, datasets: [{
-      label: "Freischaltkosten", data: levels.map(freischaltKosten),
-      borderColor: css("--s1"), backgroundColor: css("--s1"),
-    }] },
-    options: { ...optionen, plugins: { ...optionen.plugins, legend: { display: false } } },
-  });
-
-  const c2 = new Chart(document.getElementById("c2"), {
-    type: "line",
-    data: { labels: levels, datasets: spieler.map((s, i) => ({
-      label: `${s[3]} (${s[0]}, ${s[1]}, ${s[2]}, Glück ${s[4]})`,
-      data: levels.map(l => autoFarmingKosten(l, ...s)),
-      borderColor: css(`--s${i + 1}`), backgroundColor: css(`--s${i + 1}`),
-    })) },
-    options: { ...optionen, plugins: { ...optionen.plugins,
-      legend: { position: "bottom", labels: { boxWidth: 12, boxHeight: 2 } } } },
-  });
-
-  document.getElementById("log").addEventListener("change", e => {
-    for (const c of [c1, c2]) {
-      c.options.scales.y.type = e.target.checked ? "logarithmic" : "linear";
-      c.update();
-    }
-  });
-</script>
-</body>
+<body><p>Die aktuelle Auswertung für Gebiet A steht unter <a href="kostenkurve.html">Spielökonomie und Balancing</a>.</p></body>
 </html>
