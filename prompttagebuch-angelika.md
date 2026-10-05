@@ -132,3 +132,41 @@ kannstu design bisschien schoner machen ? mehr modern ? ein bisschen nicht zu vi
 Aktuellen Gruppenstand 32decd7 übernommen. Geändert: index.html, style.css, ANGELIKA.md und prompttagebuch-angelika.md. Dezente Modernisierung mit grünen Akzenten, Systemschrift, feineren Karten und klareren Abständen; Spielmechanik unverändert. Dokumentation der entfernten Platzhalter-, v1/v2- und Weiterleitungsdateien korrigiert. Charaktererstellung und Spiel bei 360 Pixel Breite ohne horizontalen Überlauf geprüft, Spielstart und Farmen erfolgreich; keine Browser-Konsolenfehler. Lokale Vorschau geöffnet. Änderungen für Commit und Push vorbereitet; der Abschluss wird im Chat bestätigt.
 
 Stand: Eintrag 7, Ziel 20 bis 30.
+
+
+## Eintrag 8
+
+**AI Mode:** Vom Benutzer angegeben: GPT-6 Astra - Medium. Keine bestätigte Modellumstellung; siehe Eintrag 1.
+
+**Date:** 05.10.2026
+
+**Prompt:**
+
+```text
+und noch moderne design
+```
+
+**Result:**
+
+Projektstand und Browseransicht geprüft; der Auftrag wurde vor weiteren Dateiänderungen durch den folgenden Rollback-Auftrag ersetzt.
+
+Stand: Eintrag 8, Ziel 20 bis 30.
+
+
+## Eintrag 9
+
+**AI Mode:** Vom Benutzer angegeben: GPT-6 Astra - Medium. Keine bestätigte Modellumstellung; siehe Eintrag 1.
+
+**Date:** 05.10.2026
+
+**Prompt:**
+
+```text
+nimm den letzten letzten commit von gregor mach ein rollback und dann aendere die md datei
+```
+
+**Result:**
+
+index.html und style.css auf den letzten Gregor-Commit 32decd7 (Teile zusammengeführt und Repository aufgeräumt) zurückgesetzt. ANGELIKA.md korrigiert: economy-platzhalter.js, kostenkurven.html und die v1/v2-Dateien sind entfernt; die Auswertung wird direkt über kostenkurve.html geöffnet. Die ursprüngliche Spieloberfläche ist wiederhergestellt. Prompt-Tagebuch fortgeführt; Git-Historie bleibt erhalten. Rollback für einen neuen Commit vorbereitet.
+
+Stand: Eintrag 9, Ziel 20 bis 30.

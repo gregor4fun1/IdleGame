@@ -9,7 +9,7 @@ Angelikas Implementierung nach der PDF vom 05.10.2026. Das Spiel lässt sich dir
 - `simulation.js`: Node-Simulation A7 mit Kaufprotokoll, Zeit je Level und drei Prüffaktoren. Optional `--json` oder `--no-bonus`. Bei verfehltem Zeitziel Exit-Code 1.
 - `economy.test.js`: Beispiele, Grenzfälle, ungültige Eingaben, Determinismus, Browser-Globals und ein Raster aus 10.001 Wachstumsfaktoren.
 - `generate-balancing-report.js`: erzeugt die eigenständige `kostenkurve.html` mit SVG-Diagrammen und Zahlentabellen. Die frühere Weiterleitungsdatei `kostenkurven.html` und die historischen v1/v2-Dateien wurden bei der Zusammenführung entfernt. Die aktuelle Auswertung wird direkt über `kostenkurve.html` geöffnet.
-- `index.html`: bindet `economy.js` direkt ein. `economy-platzhalter.js` wurde bei der Zusammenführung entfernt. Auf ausdrücklichen Wunsch von Angelika wurden anschließend `index.html` und `style.css` dezent modernisiert; Spiellogik und Formeln bleiben dabei unverändert.
+- `index.html`: bindet `economy.js` direkt ein. `economy-platzhalter.js` wurde bei der Zusammenführung entfernt. Die Oberfläche entspricht dem zusammengeführten Stand von Gregors Commit `32decd7`.
 
 ## Fachliche Entscheidungen
 

@@ -1,156 +1,112 @@
-/* Dezente Modernisierung; Strichmännchen und Spielablauf bleiben erhalten. */
-:root {
-  color-scheme: light;
-  --background: #f5f7f3;
-  --surface: #fff;
-  --text: #24352e;
-  --muted: #627168;
-  --line: #dce4dd;
-  --green: #28634a;
-  --green-dark: #1c4c37;
-  --green-soft: #edf5ee;
-}
+/* Oberfläche (Gebiet C): Strichmännchen-Stil, bedienbar ab 360 Pixel Breite */
 * { box-sizing: border-box; }
+
 body {
   margin: 0;
-  background: var(--background);
-  color: var(--text);
-  font: 15px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  -webkit-font-smoothing: antialiased;
+  font-family: "Comic Sans MS", "Chalkboard SE", "Comic Neue", sans-serif;
+  color: #222;
+  background: #fdfcf7;
 }
+
 [hidden] { display: none !important; }
-button, input, select { font: inherit; }
+
 button {
-  min-height: 44px;
-  padding: 10px 16px;
-  border: 1px solid var(--green);
-  border-radius: 10px;
-  background: var(--green);
-  color: white;
-  font-weight: 600;
+  font: inherit;
+  padding: 6px 10px;
+  border: 2px solid #222;
+  border-radius: 8px;
+  background: #ffe873;
   cursor: pointer;
-  transition: background .15s ease, border-color .15s ease;
 }
-button:hover:not(:disabled) { background: var(--green-dark); border-color: var(--green-dark); }
-button:focus-visible, input:focus-visible, select:focus-visible {
-  outline: 3px solid #8cb6a0;
-  outline-offset: 3px;
-}
-/* Gestrichelter Rand kennzeichnet deaktivierte Buttons auch ohne Farbe. */
+/* Deaktiviert ist nicht nur an der Farbe erkennbar, sondern auch am gestrichelten Rand (C-N4) */
 button:disabled {
-  border-color: #c4cec5;
   border-style: dashed;
-  background: #f2f4f0;
-  color: #657068;
+  background: #eee;
+  color: #666;
   cursor: not-allowed;
 }
-.brand { display: flex; align-items: center; gap: 10px; font-weight: 700; letter-spacing: -.025em; }
-.brand-icon {
-  display: grid; place-items: center;
-  width: 34px; height: 34px;
-  border-radius: 11px;
-  background: var(--green); color: white;
-  font-size: 20px;
-}
-.eyebrow { color: var(--green); font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
 
 /* Charaktererstellung */
 #erstellung {
+  max-width: 340px;
+  margin: 0 auto;
+  padding: 16px;
   display: grid;
-  gap: 18px;
-  width: min(440px, calc(100% - 32px));
-  margin: clamp(24px, 7vh, 72px) auto;
-  padding: 32px;
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: 22px;
-  box-shadow: 0 12px 40px #203a2910;
+  gap: 12px;
 }
-#erstellung .brand { margin-bottom: 6px; }
-.form-intro h1 { margin: 6px 0 8px; font-size: 26px; line-height: 1.2; letter-spacing: -.035em; }
-.form-intro p { margin: 0; color: var(--muted); font-size: 14px; }
-#erstellung label { display: grid; gap: 7px; font-size: 13px; font-weight: 600; }
+#erstellung label { display: grid; gap: 4px; }
 #erstellung input, #erstellung select {
-  width: 100%; min-width: 0; min-height: 46px;
-  padding: 10px 12px;
-  border: 1px solid #cdd8cf;
-  border-radius: 9px;
-  background: #fcfdfb;
-  color: var(--text);
-  font-size: 16px;
+  font: inherit;
+  padding: 6px;
+  border: 2px solid #222;
+  border-radius: 8px;
+  background: #fff;
 }
-#erstellung input::placeholder { color: #78847c; }
-#glueck {
-  margin: 0; padding: 12px 14px;
-  border: 1px solid #dbe9de; border-radius: 10px;
-  background: var(--green-soft); color: var(--green);
-  font-size: 14px; font-weight: 600;
-}
-#starten { width: 100%; }
-.form-note { margin: -7px 0 0; text-align: center; color: var(--muted); font-size: 12px; }
 
-/* Guthaben bleibt beim Scrollen sichtbar. */
+/* Feste Leiste (C-F5) */
 #leiste {
-  position: sticky; top: 0; z-index: 1;
-  display: flex; flex-wrap: wrap; align-items: center;
-  gap: 12px 28px;
-  padding: 16px max(20px, calc((100vw - 1152px) / 2));
-  background: var(--surface);
-  border-bottom: 1px solid var(--line);
-  box-shadow: 0 3px 16px #203a2905;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 16px;
+  padding: 8px 12px;
+  background: #fff;
+  border-bottom: 3px solid #222;
 }
-#leiste .brand { margin-right: auto; }
-.stat { display: grid; gap: 2px; font-size: 11px; font-weight: 600; color: var(--muted); }
-#leiste .stat strong { color: var(--text); font-size: 22px; line-height: 1.2; font-variant-numeric: tabular-nums; letter-spacing: -.03em; }
-#fortschritt { padding: 6px 10px; border-radius: 7px; background: var(--green-soft); color: var(--green); font-size: 12px; font-weight: 600; }
-#reset, #weiterspielen { background: white; color: var(--muted); border-color: var(--line); }
-#reset:hover, #weiterspielen:hover { background: #f0f3ee; color: var(--text); border-color: #b3c4b6; }
-#reset { font-size: 12px; }
-#hinweis { flex-basis: 100%; margin: 0; color: #965327; font-size: 13px; }
-#hinweis:empty { display: none; }
-.spiel-intro { max-width: 1200px; margin: auto; padding: 32px 24px 18px; }
-.spiel-intro h1 { margin: 4px 0; font-size: 27px; letter-spacing: -.04em; }
-.spiel-intro p { margin: 0; color: var(--muted); font-size: 14px; }
-.meldung {
-  max-width: 1152px; margin: 20px auto 0; padding: 20px;
-  border: 1px solid #bcd7c3; border-radius: 14px;
-  background: var(--green-soft);
-}
-.meldung p { margin: 0 0 12px; overflow-wrap: anywhere; }
+#leiste strong { font-size: 1.2em; }
+#reset { margin-left: auto; background: #fff; }
+#hinweis { flex-basis: 100%; margin: 0; min-height: 1.3em; }
 
-/* Eine Spalte am Handy; ab 900 Pixel drei gleich breite Spalten. */
-#karten { display: grid; gap: 16px; max-width: 1200px; margin: auto; padding: 0 24px 40px; }
+.meldung {
+  margin: 12px;
+  padding: 12px;
+  border: 3px solid #222;
+  border-radius: 12px;
+  background: #d9f5d0;
+}
+.meldung p { margin: 0 0 8px; }
+
+/* Level-Karten: am Handy untereinander, ab 900 Pixel in drei Spalten */
+#karten {
+  display: grid;
+  gap: 12px;
+  padding: 12px;
+}
+@media (min-width: 900px) {
+  #karten { grid-template-columns: repeat(3, 1fr); }
+}
+
 .karte {
-  display: grid; grid-template-columns: 52px minmax(0, 1fr);
-  align-content: start; align-items: center;
-  gap: 14px; min-width: 0; padding: 20px;
-  border: 1px solid var(--line); border-radius: 15px;
-  background: var(--surface);
-  box-shadow: 0 3px 12px #203a2904;
+  display: grid;
+  grid-template-columns: 56px 1fr auto;
+  align-items: center;
+  gap: 4px 10px;
+  padding: 10px;
+  border: 3px solid #222;
+  border-radius: 12px;
+  background: #fff;
 }
-.karte.freigeschaltet { border-color: #94b49e; }
-.karte.gesperrt { border-style: dashed; background: #f0f3ee; color: #66736a; box-shadow: none; }
-.karte.automatisiert { background: var(--green-soft); border-color: #bcd7c3; }
-.figur { display: grid; place-items: center; padding: 6px 2px; background: #f5f7f1; border-radius: 10px; }
-.karte.gesperrt .figur { background: #e8ede6; }
-.karte svg { display: block; width: 46px; height: auto; }
-.karte h2 { margin: 0 0 3px; font-size: 16px; letter-spacing: -.02em; }
-.karte p { margin: 3px 0; font-size: 12px; overflow-wrap: anywhere; }
-.karte p:last-child { color: var(--muted); }
-.buttons { grid-column: 1 / -1; display: flex; gap: 8px; }
-.buttons:empty { display: none; }
-.buttons button { flex: 1; min-width: 0; padding: 8px 10px; font-size: 12px; line-height: 1.45; }
-.balken { grid-column: 1 / -1; height: 5px; overflow: hidden; border-radius: 4px; background: #e4ebe3; }
-.balken i { display: block; width: 0; height: 100%; background: #719b7f; }
-@media (min-width: 900px) { #karten { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-@media (max-width: 650px) {
-  #erstellung { padding: 24px; }
-  #leiste { gap: 12px 20px; padding: 14px 18px; }
-  #leiste .brand { flex-basis: calc(100% - 100px); order: -2; }
-  #reset { order: -1; margin-left: auto; }
-  #fortschritt { margin-left: auto; }
-  .spiel-intro { padding: 24px 18px 16px; }
-  #karten { padding: 0 18px 28px; gap: 12px; }
-  .meldung { margin: 14px 18px 0; }
+.karte.gesperrt { border-style: dashed; background: #eee; color: #666; }
+.karte.automatisiert { background: #e3f1ff; }
+.karte svg { display: block; width: 56px; }
+.karte h2 { margin: 0; font-size: 1.1em; }
+.karte p { margin: 2px 0; font-size: 0.9em; }
+.buttons { display: grid; gap: 6px; }
+
+/* Cooldown-Balken am unteren Rand (C-F3) */
+.balken {
+  grid-column: 1 / -1;
+  height: 8px;
+  border: 2px solid #222;
+  border-radius: 4px;
+  overflow: hidden;
 }
-@media (prefers-reduced-motion: reduce) { button { transition: none; } }
+.balken i {
+  display: block;
+  width: 0;
+  height: 100%;
+  background: #e2574c;
+}
