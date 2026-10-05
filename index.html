@@ -3,27 +3,34 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Idle-Game</title>
-  <link rel="stylesheet" href="style.css">
+  <title>BikeBuddy · Idle-Game</title>
+  <link rel="stylesheet" href="style.css?v=2">
 </head>
 <body>
 
 <form id="erstellung" hidden>
-  <h1>Charakter erstellen</h1>
+  <div class="brand"><span class="brand-icon" aria-hidden="true">b</span>BikeBuddy</div>
+  <div class="form-intro">
+    <span class="eyebrow">Dein Spiel. Dein Tempo.</span>
+    <h1>Charakter erstellen</h1>
+    <p>Starte klein und schalte Level für Level frei.</p>
+  </div>
   <label>Name (1 bis 20 Zeichen)
-    <input id="name" maxlength="20" autocomplete="off" required>
+    <input id="name" maxlength="20" autocomplete="off" placeholder="Dein Name" required>
   </label>
   <label>Herkunft <select id="herkunft"></select></label>
   <label>Augenfarbe <select id="augenfarbe"></select></label>
   <label>Haarfarbe <select id="haarfarbe"></select></label>
   <p id="glueck"></p>
   <button id="starten" disabled>Spiel starten</button>
+  <p class="form-note">30 Level warten auf dich.</p>
 </form>
 
 <main id="spiel" hidden>
   <header id="leiste">
-    <div>Guthaben <strong id="guthaben">0</strong></div>
-    <div>Ertrag pro Sekunde <strong id="proSekunde">0</strong></div>
+    <div class="brand"><span class="brand-icon" aria-hidden="true">b</span>BikeBuddy</div>
+    <div class="stat">Guthaben <strong id="guthaben">0</strong></div>
+    <div class="stat">Ertrag pro Sekunde <strong id="proSekunde">0</strong></div>
     <div id="fortschritt"></div>
     <button id="reset" type="button">Reset</button>
     <p id="hinweis" role="status"></p>
@@ -39,6 +46,11 @@
     <button id="weiterspielen" type="button">Weiterspielen</button>
   </section>
 
+  <div class="spiel-intro">
+    <span class="eyebrow">Ein Level nach dem anderen</span>
+    <h1>Dein Fortschritt</h1>
+    <p>Farmen, automatisieren, weiterkommen.</p>
+  </div>
   <div id="karten"></div>
 </main>
 
