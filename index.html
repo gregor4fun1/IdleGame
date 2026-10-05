@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Idle-Game</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<form id="erstellung" hidden>
+  <h1>Charakter erstellen</h1>
+  <label>Name (1 bis 20 Zeichen)
+    <input id="name" maxlength="20" autocomplete="off" required>
+  </label>
+  <label>Herkunft <select id="herkunft"></select></label>
+  <label>Augenfarbe <select id="augenfarbe"></select></label>
+  <label>Haarfarbe <select id="haarfarbe"></select></label>
+  <p id="glueck"></p>
+  <button id="starten" disabled>Spiel starten</button>
+</form>
+
+<main id="spiel" hidden>
+  <header id="leiste">
+    <div>Guthaben <strong id="guthaben">0</strong></div>
+    <div>Ertrag pro Sekunde <strong id="proSekunde">0</strong></div>
+    <div id="fortschritt"></div>
+    <button id="reset" type="button">Reset</button>
+    <p id="hinweis" role="status"></p>
+  </header>
+
+  <section id="offline" class="meldung" hidden>
+    <p id="offlineText"></p>
+    <button id="offlineOk" type="button">OK</button>
+  </section>
+  <section id="abschluss" class="meldung" hidden>
+    <p id="abschlussText"></p>
+    <button id="neuesSpiel" type="button">Neues Spiel</button>
+    <button id="weiterspielen" type="button">Weiterspielen</button>
+  </section>
+
+  <div id="karten"></div>
+</main>
+
+<script src="kostenkurve.js"></script>
+<!-- PLATZHALTER: durch economy.js ersetzen, sobald Gebiet A die Datei liefert -->
+<script src="economy-platzhalter.js"></script>
+<script src="storage.js"></script>
+<script src="game.js"></script>
+<script src="format.js"></script>
+<script src="figures.js"></script>
+<script src="ui.js"></script>
+</body>
+</html>

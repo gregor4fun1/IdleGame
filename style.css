@@ -1,0 +1,112 @@
+/* Oberfläche (Gebiet C): Strichmännchen-Stil, bedienbar ab 360 Pixel Breite */
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: "Comic Sans MS", "Chalkboard SE", "Comic Neue", sans-serif;
+  color: #222;
+  background: #fdfcf7;
+}
+
+[hidden] { display: none !important; }
+
+button {
+  font: inherit;
+  padding: 6px 10px;
+  border: 2px solid #222;
+  border-radius: 8px;
+  background: #ffe873;
+  cursor: pointer;
+}
+/* Deaktiviert ist nicht nur an der Farbe erkennbar, sondern auch am gestrichelten Rand (C-N4) */
+button:disabled {
+  border-style: dashed;
+  background: #eee;
+  color: #666;
+  cursor: not-allowed;
+}
+
+/* Charaktererstellung */
+#erstellung {
+  max-width: 340px;
+  margin: 0 auto;
+  padding: 16px;
+  display: grid;
+  gap: 12px;
+}
+#erstellung label { display: grid; gap: 4px; }
+#erstellung input, #erstellung select {
+  font: inherit;
+  padding: 6px;
+  border: 2px solid #222;
+  border-radius: 8px;
+  background: #fff;
+}
+
+/* Feste Leiste (C-F5) */
+#leiste {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 16px;
+  padding: 8px 12px;
+  background: #fff;
+  border-bottom: 3px solid #222;
+}
+#leiste strong { font-size: 1.2em; }
+#reset { margin-left: auto; background: #fff; }
+#hinweis { flex-basis: 100%; margin: 0; min-height: 1.3em; }
+
+.meldung {
+  margin: 12px;
+  padding: 12px;
+  border: 3px solid #222;
+  border-radius: 12px;
+  background: #d9f5d0;
+}
+.meldung p { margin: 0 0 8px; }
+
+/* Level-Karten: am Handy untereinander, ab 900 Pixel in drei Spalten */
+#karten {
+  display: grid;
+  gap: 12px;
+  padding: 12px;
+}
+@media (min-width: 900px) {
+  #karten { grid-template-columns: repeat(3, 1fr); }
+}
+
+.karte {
+  display: grid;
+  grid-template-columns: 56px 1fr auto;
+  align-items: center;
+  gap: 4px 10px;
+  padding: 10px;
+  border: 3px solid #222;
+  border-radius: 12px;
+  background: #fff;
+}
+.karte.gesperrt { border-style: dashed; background: #eee; color: #666; }
+.karte.automatisiert { background: #e3f1ff; }
+.karte svg { display: block; width: 56px; }
+.karte h2 { margin: 0; font-size: 1.1em; }
+.karte p { margin: 2px 0; font-size: 0.9em; }
+.buttons { display: grid; gap: 6px; }
+
+/* Cooldown-Balken am unteren Rand (C-F3) */
+.balken {
+  grid-column: 1 / -1;
+  height: 8px;
+  border: 2px solid #222;
+  border-radius: 4px;
+  overflow: hidden;
+}
+.balken i {
+  display: block;
+  width: 0;
+  height: 100%;
+  background: #e2574c;
+}
