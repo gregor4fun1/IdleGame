@@ -26,7 +26,10 @@ const Speicher = (() => {
       && s.levels.every((l, i) => l !== null && typeof l === "object"
         && typeof l.unlocked === "boolean" && typeof l.auto === "boolean"
         && typeof l.autoOfferSeen === "boolean"
-        && zahl(l.speedFactor) && zahl(l.unlockedAtPlaytime)
+        // Grenzen aus CONFIG (kostenkurve.js): außerhalb davon werfen autoCost und speedFactor aus economy.js
+        && zahl(l.speedFactor) && l.speedFactor >= CONFIG.speedMin && l.speedFactor <= CONFIG.speedMax
+        && (i > 0 || l.speedFactor === 1)
+        && zahl(l.unlockedAtPlaytime) && l.unlockedAtPlaytime <= s.playtime
         && (!l.auto || l.unlocked)                                   // Auto-Farming nur auf freigeschalteten Leveln
         && (i === 0 ? l.unlocked : !l.unlocked || s.levels[i - 1].unlocked)); // Level 1 frei, keine Lücke
   }

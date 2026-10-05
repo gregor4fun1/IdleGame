@@ -12,11 +12,9 @@ globalThis.localStorage = {
   removeItem: (k) => ablage.delete(k),
 };
 
-const economy = fs.existsSync(`${__dirname}/economy.js`) ? "economy.js" : "economy-platzhalter.js";
-for (const datei of ["kostenkurve.js", economy, "storage.js", "game.js"]) {
+for (const datei of ["kostenkurve.js", "economy.js", "storage.js", "game.js"]) {
   vm.runInThisContext(fs.readFileSync(`${__dirname}/${datei}`, "utf8"), { filename: datei });
 }
-console.log(`Formeln aus ${economy}`);
 
 const charakter = { name: "  Gregor ", herkunft: "Österreich", augenfarbe: "blau", haarfarbe: "braun", glueck: 0.73 };
 let jetzt = 1_800_000_000_000;
@@ -143,6 +141,11 @@ const defekte = [
   kaputt((k) => { k.levels[5].unlocked = true; }),
   kaputt((k) => { k.levels[9].auto = true; }),
   kaputt((k) => { k.levels[3] = null; }),
+  // Werte, bei denen die Formeln aus economy.js einen Fehler werfen würden
+  kaputt((k) => { k.levels[1].speedFactor = 3; }),
+  kaputt((k) => { k.levels[1].speedFactor = "1"; }),
+  kaputt((k) => { k.levels[0].speedFactor = 0.9; }),
+  kaputt((k) => { k.levels[1].unlockedAtPlaytime = k.playtime + 1; }),
 ];
 for (const eintrag of defekte) {
   ablage.set(Speicher.SCHLUESSEL, eintrag);
